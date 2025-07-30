@@ -6,8 +6,8 @@
 	import BoardSetup from '$lib/components/BoardSetup.svelte';
 	import PieceList from '$lib/components/PieceList.svelte';
 	import CutParameters from '$lib/components/CutParameters.svelte';
-	import LayoutViewer2D from '$lib/components/LayoutViewer2D.svelte'; // <-- Import the new component
-	import LayoutViewer3D from '$lib/components/LayoutViewer3D.svelte'; // <-- Import the new 3D component
+	import LayoutViewer2D from '$lib/components/LayoutViewer2D.svelte'; 
+	import LayoutViewer3D from '$lib/components/LayoutViewer3D.svelte'; 
 
 	// Optimizer
 	import { calculateLayout, type OptimizerInput, type LayoutResult } from '$lib/utils/optimizer';
@@ -22,7 +22,6 @@
 	// Ref for hidden project file input
 	let projectFileInputRef: HTMLInputElement;
 
-	// runOptimization function remains the same
 	async function runOptimization() {
 		console.log('Run Optimization clicked...');
 		isLoading = true;
