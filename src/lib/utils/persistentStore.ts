@@ -42,7 +42,7 @@ export function createPersistentStore<T>(key: string, initialValue: T): Writable
 					);
 					storeValue = initialValue; // Use initial value if parsing fails
 					// Optionally remove the corrupted item to prevent future errors
-					// localStorage.removeItem(key);
+					localStorage.removeItem(key);
 				}
 			} else {
 				// console.log(`PersistentStore: No data found for key "${key}". Using initial value.`); // Optional log

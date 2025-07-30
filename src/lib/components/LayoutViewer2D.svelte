@@ -143,7 +143,7 @@
 					{#each layoutResult.placedPieces.filter((p) => p.boardIndex === i) as piece (piece.id + '-' + piece.x + '-' + piece.y)}
 						{@const pieceColor = getPieceColor(piece.name || piece.id)}
 						{@const minDim = Math.min(piece.placedWidthMm, piece.placedLengthMm)}
-						{@const fontSize = Math.max(6, Math.min(14, minDim / 6))}
+						{@const fontSize = Math.max(6, Math.min(24, minDim / 6))}
 						<g class="placed-piece-group">
 							<title>
 								{piece.name} ({piece.placedWidthMm.toFixed(0)} x {piece.placedLengthMm.toFixed(0)})

@@ -21,11 +21,6 @@ export interface OptimizerInput {
 	settings: Readonly<CutSettings>; // Use Readonly for settings
 }
 
-/** Internal representation of a free space during calculation */
-interface FreeRectangle extends Rectangle {
-	// Could potentially add scoring properties here later if needed
-}
-
 // ============================================================================
 // === Output Structures ======================================================
 // ============================================================================
@@ -36,6 +31,11 @@ export interface Rectangle {
 	y: number; // Position of the top-left corner (in mm)
 	width: number; // Width in mm
 	length: number; // Length (height) in mm
+}
+
+/** Internal representation of a free space during calculation */
+export interface FreeRectangle extends Rectangle {
+	// Could potentially add scoring properties here later if needed
 }
 
 /** Represents a single piece successfully placed onto a board */
@@ -87,15 +87,6 @@ export interface LayoutResult {
 	/** Optional: Any errors or warnings encountered */
 	errors?: string[];
 	warnings?: string[];
-}
-
-// ============================================================================
-// === Internal Helper Structures (Example) ==================================
-// ============================================================================
-
-/** Internal representation of a free space during calculation */
-interface FreeRectangle extends Rectangle {
-	// We might add scoring properties here later for different heuristics
 }
 
 // ============================================================================

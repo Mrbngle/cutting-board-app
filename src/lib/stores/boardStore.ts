@@ -1,10 +1,9 @@
-import { type Writable } from 'svelte/store'; // Only need Writable type here now
+import { type Writable } from 'svelte/store'; 
 // Import our persistent store creator
-import { createPersistentStore } from '$lib/utils/persistentStore'; // Adjust path if needed
+import { createPersistentStore } from '$lib/utils/persistentStore'; 
 // Keep INCHES_TO_MM if exported/used elsewhere, or define locally if only used here
 export const INCHES_TO_MM: number = 25.4;
 
-// Interface for the store's state remains the same
 export interface BoardState {
 	widthMm: number;
 	lengthMm: number;
@@ -12,7 +11,6 @@ export interface BoardState {
 	units: 'mm' | 'inches';
 }
 
-// Default state remains the same
 const defaultBoardState: BoardState = {
 	widthMm: 2440,
 	lengthMm: 1220,
@@ -23,7 +21,6 @@ const defaultBoardState: BoardState = {
 // Define a unique key for localStorage
 const STORAGE_KEY = 'plywood_board_v1';
 
-// Interface for the exported store methods remains the same
 export interface BoardStore extends Pick<Writable<BoardState>, 'subscribe' | 'set'> {
 	updateDimension: (dimension: 'width' | 'length' | 'thickness', value: number | string) => void;
 	setUnits: (newUnit: 'mm' | 'inches') => void;
@@ -37,7 +34,6 @@ function createBoardStore(): BoardStore {
 		defaultBoardState
 	);
 
-	// --- Methods remain the same ---
 	// They operate on the 'update' and 'set' functions provided by the store instance1
 	const updateDimension = (
 		dimension: 'width' | 'length' | 'thickness',

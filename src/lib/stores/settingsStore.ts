@@ -1,6 +1,6 @@
 import { get, type Writable } from 'svelte/store'; // Keep 'get'
-import { createPersistentStore } from '$lib/utils/persistentStore'; // Adjust path if needed
-import { boardStore, INCHES_TO_MM, type BoardState } from './boardStore'; // Keep imports needed for methods
+import { createPersistentStore } from '$lib/utils/persistentStore'; 
+import { boardStore, INCHES_TO_MM, type BoardState } from './boardStore'; 
 
 // Keep CutSettings interface
 export interface CutSettings {
@@ -25,7 +25,7 @@ const defaultSettings: CutSettings = {
 // Define a unique key for localStorage
 const STORAGE_KEY = 'plywood_settings_v1';
 
-// Keep SettingsStore interface
+// SettingsStore interface
 export interface SettingsStore extends Pick<Writable<CutSettings>, 'subscribe' | 'set'> {
 	updateSetting: <K extends keyof CutSettings>(
 		settingName: K,
@@ -41,8 +41,6 @@ function createSettingsStore(): SettingsStore {
 		defaultSettings
 	);
 
-	// --- Methods remain the same ---
-	// They use 'update', 'set', and 'get(boardStore)' correctly
 	const updateSetting = <K extends keyof CutSettings>(settingName: K, value: any): void => {
 		update((currentState: CutSettings): CutSettings => {
 			const newState = { ...currentState };

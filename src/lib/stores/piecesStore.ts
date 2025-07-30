@@ -1,5 +1,5 @@
 import { get, type Writable } from 'svelte/store'; // Keep 'get' if used in methods
-import { createPersistentStore } from '$lib/utils/persistentStore'; // Adjust path if needed
+import { createPersistentStore } from '$lib/utils/persistentStore'; 
 import { boardStore, INCHES_TO_MM, type BoardState } from './boardStore'; // Keep imports needed for methods
 
 // CutPiece interface
