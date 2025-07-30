@@ -1,0 +1,9 @@
+Name,Width,Length,Quantity,Priority,Grain
+Main Shelf,1200,350,2,5,length
+Side Panel,850,350,2,4,length
+Back Panel,1180,830,1,,width
+Small Brace,80,80,4,3,none
+Top Trim,1200,50.5,1,2,length
+,150,150,6,,
+Bad Data,abc,400,1,,
+Drawer Front,400,200,3,5,length

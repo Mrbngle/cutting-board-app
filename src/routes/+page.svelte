@@ -7,15 +7,17 @@
 	import PieceList from '$lib/components/PieceList.svelte';
 	import CutParameters from '$lib/components/CutParameters.svelte';
 	import LayoutViewer2D from '$lib/components/LayoutViewer2D.svelte'; // <-- Import the new component
+	import LayoutViewer3D from '$lib/components/LayoutViewer3D.svelte'; // <-- Import the new 3D component
 
 	// Optimizer
 	import { calculateLayout, type OptimizerInput, type LayoutResult } from '$lib/utils/optimizer';
 	import { get } from 'svelte/store';
 
-	// State for results and loading
+	// --- Component State ---
 	let layoutResult: LayoutResult | null = null;
 	let isLoading: boolean = false;
 	let errorMessage: string | null = null;
+	let currentView: '2D' | '3D' = '2D'; // State to toggle between views
 
 	// runOptimization function remains the same
 	async function runOptimization() {
@@ -122,9 +124,7 @@
 						<div class="result-stats">
 							<p>Boards Required: <strong>{layoutResult.boardsUsed}</strong></p>
 							<p>
-								Estimated Waste: <strong
-									>{layoutResult.wastePercentage.toFixed(1)}%</strong
-								>
+								Estimated Waste: <strong>{layoutResult.wastePercentage.toFixed(1)}%</strong>
 							</p>
 							<p>
 								Calculation Time: <strong
@@ -136,37 +136,53 @@
 							<div class="unplaced-info result-warnings">
 								<h4>Unplaced Pieces:</h4>
 								<p>
-									Could not place <strong
-										>{layoutResult.unplacedPieces.length}</strong
-									> original piece type(s):
+									Could not place <strong>{layoutResult.unplacedPieces.length}</strong> original piece
+									type(s):
 								</p>
 								<ul>
 									{#each layoutResult.unplacedPieces as piece (piece.id)}
 										<li>
-											{piece.name || piece.id} ({piece.widthMm.toFixed(
+											{piece.name || piece.id} ({piece.widthMm.toFixed(0)}x{piece.lengthMm.toFixed(
 												0
-											)}x{piece.lengthMm.toFixed(0)}mm)
+											)}mm)
 										</li>
 									{/each}
 								</ul>
 							</div>
 						{:else if layoutResult.placedPieces.length > 0}
-							<p style="color: green; font-weight: bold;">
-								All requested pieces placed!
-							</p>
+							<p style="color: green; font-weight: bold;">All requested pieces placed!</p>
 						{/if}
 					{/if}
 				</div>
 
 				<div class="visualization-area">
 					{#if layoutResult.placedPieces.length > 0 || layoutResult.usableScrap.length > 0}
-						<LayoutViewer2D {layoutResult} />
+						<div class="view-toggle">
+							<button on:click={() => (currentView = '2D')} class:active={currentView === '2D'}>
+								2D View
+							</button>
+							<button on:click={() => (currentView = '3D')} class:active={currentView === '3D'}>
+								3D View
+							</button>
+						</div>
+
+						{#if currentView === '2D'}
+							<div class="viewer-container">
+								<LayoutViewer2D {layoutResult} />
+							</div>
+						{:else if currentView === '3D'}
+							{#key JSON.stringify(layoutResult.placedPieces)}
+								<div class="viewer-container">
+									<LayoutViewer3D {layoutResult} />
+								</div>
+							{/key}
+						{/if}
 					{:else if !(layoutResult.errors && layoutResult.errors.length > 0)}
 						<p class="no-visualization">No layout to display (no pieces placed).</p>
 					{/if}
 				</div>
 			</div>
-		{/if} 
+		{/if}
 	</section>
 </div>
 
@@ -377,5 +393,39 @@
 		padding: 1rem;
 		background-color: #f8f9fa;
 		border-radius: 4px;
+	}
+
+	/* --- New Styles for View Toggles --- */
+	.view-toggle {
+		display: flex;
+		justify-content: center;
+		gap: 0.5rem;
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+	}
+	.view-toggle button {
+		padding: 0.5rem 1.2rem;
+		font-size: 0.9rem;
+		font-weight: 500;
+		border: 1px solid #ccc;
+		background-color: #f8f9fa;
+		color: #495057;
+		cursor: pointer;
+		border-radius: 4px;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+	}
+	.view-toggle button.active {
+		background-color: #007bff;
+		color: white;
+		border-color: #007bff;
+	}
+	.view-toggle button:hover:not(.active) {
+		background-color: #e2e6ea;
+	}
+
+	.viewer-container {
+		margin-top: 1rem;
 	}
 </style>
