@@ -1,0 +1,40 @@
+/* --- NEW: Board Toggle Styles --- */
+.board-toggle-controls {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 0.75rem;
+	font-size: 0.9rem;
+}
+.board-toggle-controls button {
+	padding: 0.3rem 0.8rem;
+	min-width: 30px;
+	border: 1px solid #ccc;
+	background-color: #f8f9fa;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.board-toggle-controls button.active {
+	background-color: #007bff;
+	color: white;
+	border-color: #007bff;
+	font-weight: bold;
+}
+.board-toggle-controls button:hover:not(.active) {
+	background-color: #e2e6ea;
+}
+
+/* --- Container Styles (as before) --- */
+.viewer-3d-container {
+	width: 100%;
+	height: 600px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	background-color: #e9ecef;
+	cursor: grab;
+}
+.viewer-3d-container:active {
+	cursor: grabbing;
+}

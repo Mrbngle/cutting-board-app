@@ -1,0 +1,269 @@
+@use '../lib/styles/app.scss';
+
+/* --- Paste ALL Previous Styles Here --- */
+/* .page-content, .config-section, h2, p, :global(...), .section-divider, etc. */
+/* .run-controls, .run-button, .spinner, .loading-indicator, .error-message */
+/* .results-summary, .card, h3, .result-stats, .result-errors, .result-warnings, .unplaced-info */
+/* --- Including these: --- */
+.page-content {
+	max-width: 960px;
+	margin: 1.5rem auto 4rem auto;
+	padding: 0 1rem;
+}
+.config-section {
+	margin-bottom: 2.5rem;
+	text-align: center;
+}
+.config-section h2 {
+	font-size: 1.7rem;
+	margin-bottom: 0.75rem;
+	color: #333;
+	font-weight: 600;
+}
+.config-section p {
+	font-size: 1rem;
+	color: #555;
+	max-width: 650px;
+	margin: 0 auto 2rem auto;
+	line-height: 1.6;
+}
+:global(.board-setup-card),
+:global(.piece-manager),
+:global(.cut-parameters-card) {
+	margin-left: auto;
+	margin-right: auto;
+}
+:global(.piece-manager > .card) {
+	margin-left: auto;
+	margin-right: auto;
+}
+.section-divider {
+	border: none;
+	border-top: 1px solid #e5e5e5;
+	margin: 3.5rem auto;
+	width: 75%;
+}
+.results-section h2 {
+	font-size: 1.7rem;
+	margin-bottom: 1.5rem;
+	color: #333;
+	font-weight: 600;
+	text-align: center;
+}
+.run-controls {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+.run-button {
+	padding: 0.8rem 2rem;
+	font-size: 1.1rem;
+	font-weight: 600;
+	cursor: pointer;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	transition:
+		background-color 0.2s ease,
+		opacity 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+.run-button:hover:not(:disabled) {
+	background-color: #0056b3;
+}
+.run-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+.spinner {
+	border: 3px solid rgba(255, 255, 255, 0.3);
+	border-radius: 50%;
+	border-top-color: #fff;
+	width: 16px;
+	height: 16px;
+	animation: spin 1s linear infinite;
+}
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.loading-indicator {
+	text-align: center;
+	padding: 2rem 1rem;
+	font-size: 1.1rem;
+	font-style: italic;
+	color: #555;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.8rem;
+}
+.spinner.large {
+	width: 24px;
+	height: 24px;
+	border-top-color: #007bff;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+	border-left-color: transparent;
+}
+.error-message {
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+	padding: 1rem;
+	border-radius: 4px;
+	margin: 1.5rem auto;
+	max-width: 700px;
+	text-align: center;
+}
+.results-summary p {
+	margin: 0.5rem 0;
+	font-size: 1rem;
+	color: #333;
+}
+.results-summary .result-stats p {
+	margin: 0.8rem 0;
+}
+.results-summary strong {
+	color: #0056b3;
+}
+.result-errors,
+.result-warnings {
+	margin: 1.5rem 0;
+	padding: 0.8rem 1.2rem;
+	border-radius: 4px;
+}
+.result-errors {
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+}
+.result-warnings {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeeba;
+}
+.result-errors h4,
+.result-warnings h4 {
+	margin-top: 0;
+	margin-bottom: 0.5rem;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.result-errors ul,
+.result-warnings ul {
+	margin-bottom: 0;
+	padding-left: 20px;
+	font-size: 0.9rem;
+}
+.unplaced-info {
+	margin-top: 1.5rem;
+}
+.unplaced-info ul {
+	margin-top: 0.5rem;
+}
+.unplaced-info li {
+	font-size: 0.9rem;
+}
+
+/* --- New Styles for Results Layout --- */
+.results-container {
+	margin-top: 2rem;
+}
+.visualization-area {
+	margin-top: 2rem;
+	width: 100%;
+}
+.no-visualization {
+	text-align: center;
+	font-style: italic;
+	color: #666;
+	margin-top: 1.5rem;
+	padding: 1rem;
+	background-color: #f8f9fa;
+	border-radius: 4px;
+}
+
+/* --- New Styles for View Toggles --- */
+.view-toggle {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+.view-toggle button {
+	padding: 0.5rem 1.2rem;
+	font-size: 0.9rem;
+	font-weight: 500;
+	border: 1px solid #ccc;
+	background-color: #f8f9fa;
+	color: #495057;
+	cursor: pointer;
+	border-radius: 4px;
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+}
+.view-toggle button.active {
+	background-color: #007bff;
+	color: white;
+	border-color: #007bff;
+}
+.view-toggle button:hover:not(.active) {
+	background-color: #e2e6ea;
+}
+
+.viewer-container {
+	margin-top: 1rem;
+}
+
+.project-management {
+	/* Inherit card styles or define */
+	border: 1px solid #e0e0e0;
+	border-radius: 6px;
+	padding: 1.5rem 2rem;
+	background-color: #ffffff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+	margin-bottom: 2.5rem;
+	text-align: center;
+}
+.project-management .project-title {
+	margin-top: 0;
+	margin-bottom: 1.5rem;
+	font-size: 1.4rem;
+	color: #333;
+}
+.project-management .project-buttons {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+.project-management .project-btn {
+	padding: 0.7rem 1.5rem;
+	font-size: 0.95rem;
+	font-weight: 500;
+	border-radius: 4px;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+.project-btn.import {
+	background-color: #17a2b8; /* Teal */
+	color: white;
+}
+.project-btn.import:hover {
+	background-color: #138496;
+}
+.project-btn.export {
+	background-color: #28a745; /* Green */
+	color: white;
+}
+.project-btn.export:hover {
+	background-color: #218838;
+}
