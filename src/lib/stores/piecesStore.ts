@@ -2,7 +2,7 @@ import { get, type Writable } from 'svelte/store'; // Keep 'get' if used in meth
 import { createPersistentStore } from '$lib/utils/persistentStore'; // Adjust path if needed
 import { boardStore, INCHES_TO_MM, type BoardState } from './boardStore'; // Keep imports needed for methods
 
-// Keep CutPiece interface
+// CutPiece interface
 export interface CutPiece {
   id: string;
   name: string;
@@ -13,7 +13,7 @@ export interface CutPiece {
   grainDirection: 'length' | 'width' | 'none';
 }
 
-// Keep type definitions for input data
+// Type definitions for input data
 type PieceInputData = Partial<Omit<CutPiece, 'id' | 'widthMm' | 'lengthMm' | 'width' | 'length' | 'quantity'>> & { width: number | string; length: number | string; quantity?: number | string; };
 type PieceUpdateData = Partial<Omit<CutPiece, 'id' | 'widthMm' | 'lengthMm' | 'width' | 'length'>> & { width?: number | string; length?: number | string; quantity?: number | string; };
 
@@ -23,12 +23,12 @@ const defaultPiecesState: CutPiece[] = [];
 // Define a unique key for localStorage
 const STORAGE_KEY = 'plywood_pieces_v1';
 
-// Keep PiecesStore interface
-export interface PiecesStore extends Pick<Writable<CutPiece[]>, 'subscribe'> {
-  addPiece: (pieceData: PieceInputData) => boolean;
-  removePiece: (id: string) => void;
-  updatePiece: (id: string, updatedData: PieceUpdateData) => boolean;
-  clearPieces: () => void;
+// PiecesStore interface
+export interface PiecesStore extends Pick<Writable<CutPiece[]>, 'subscribe' | 'set'> {
+    addPiece: (pieceData: PieceInputData) => boolean;
+    removePiece: (id: string) => void;
+    updatePiece: (id: string, updatedData: PieceUpdateData) => boolean;
+    clearPieces: () => void;
 }
 
 function createPiecesStore(): PiecesStore {
@@ -36,7 +36,6 @@ function createPiecesStore(): PiecesStore {
   const { subscribe, set, update }: Writable<CutPiece[]> =
     createPersistentStore<CutPiece[]>(STORAGE_KEY, defaultPiecesState);
 
-  // --- Methods remain the same ---
   // They use 'update', 'set', and 'get(boardStore)' which still work correctly
   const addPiece = (pieceData: PieceInputData): boolean => {
     const currentBoardState: BoardState = get(boardStore);
@@ -102,6 +101,7 @@ function createPiecesStore(): PiecesStore {
   return {
     subscribe,
     addPiece,
+    set,
     removePiece,
     updatePiece,
     clearPieces,

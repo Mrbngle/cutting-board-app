@@ -26,9 +26,9 @@ const defaultSettings: CutSettings = {
 const STORAGE_KEY = 'plywood_settings_v1';
 
 // Keep SettingsStore interface
-export interface SettingsStore extends Pick<Writable<CutSettings>, 'subscribe'> {
-  updateSetting: <K extends keyof CutSettings>(settingName: K, value: CutSettings[K] | string | number | boolean) => void;
-  resetSettings: () => void;
+export interface SettingsStore extends Pick<Writable<CutSettings>, 'subscribe' | 'set'> {
+    updateSetting: <K extends keyof CutSettings>(settingName: K, value: CutSettings[K] | string | number | boolean) => void;
+    resetSettings: () => void;
 }
 
 function createSettingsStore(): SettingsStore {
@@ -71,6 +71,7 @@ function createSettingsStore(): SettingsStore {
 
   return {
     subscribe,
+    set,
     updateSetting,
     resetSettings,
   };

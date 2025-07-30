@@ -24,7 +24,7 @@ const defaultBoardState: BoardState = {
 const STORAGE_KEY = 'plywood_board_v1';
 
 // Interface for the exported store methods remains the same
-export interface BoardStore extends Pick<Writable<BoardState>, 'subscribe'> {
+export interface BoardStore extends Pick<Writable<BoardState>, 'subscribe' | 'set'> {
     updateDimension: (dimension: 'width' | 'length' | 'thickness', value: number | string) => void;
     setUnits: (newUnit: 'mm' | 'inches') => void;
     reset: () => void;
@@ -70,6 +70,7 @@ function createBoardStore(): BoardStore {
         subscribe,
         updateDimension,
         setUnits,
+        set,
         reset
     };
 }

@@ -19,6 +19,9 @@
 	let errorMessage: string | null = null;
 	let currentView: '2D' | '3D' = '2D'; // State to toggle between views
 
+	// Ref for hidden project file input
+	let projectFileInputRef: HTMLInputElement;
+
 	// runOptimization function remains the same
 	async function runOptimization() {
 		console.log('Run Optimization clicked...');
@@ -46,9 +49,104 @@
 			isLoading = false;
 		}
 	}
+
+	/** Exports the current state of all stores to a JSON file. */
+	function exportProject() {
+		try {
+			// 1. Gather the current state from all stores
+			const projectData = {
+				board: get(boardStore),
+				pieces: get(piecesStore),
+				settings: get(settingsStore),
+				// Add metadata for future compatibility
+				meta: {
+					version: '1.0.0',
+					exportedAt: new Date().toISOString()
+				}
+			};
+
+			// 2. Convert to a JSON string
+			const jsonString = JSON.stringify(projectData, null, 2); // Pretty-print with 2 spaces
+
+			// 3. Create a blob and trigger download
+			const blob = new Blob([jsonString], { type: 'application/json' });
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = `plywood-project-${Date.now()}.json`;
+			document.body.appendChild(link);
+			link.click();
+
+			// 4. Clean up
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		} catch (error) {
+			console.error('Failed to export project:', error);
+			alert('An error occurred while exporting the project.');
+		}
+	}
+
+	/** Programmatically clicks the hidden file input for project import. */
+	function triggerProjectImport() {
+		projectFileInputRef && projectFileInputRef?.click();
+	}
+
+	/** Handles the file selection for project import. */
+	function handleProjectFileSelect(event: Event) {
+		const target = event.target as HTMLInputElement;
+		const file = target.files?.[0];
+
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			try {
+				const text = e.target?.result as string;
+				const parsedData = JSON.parse(text);
+
+				// **Crucial Validation Step**
+				if (parsedData && parsedData.board && parsedData.pieces && parsedData.settings) {
+					// Load the data into the stores
+					boardStore.set(parsedData.board);
+					piecesStore.set(parsedData.pieces);
+					settingsStore.set(parsedData.settings);
+
+					// Clear any previous results
+					layoutResult = null;
+					alert('Project loaded successfully!');
+				} else {
+					throw new Error('Invalid project file format.');
+				}
+			} catch (error) {
+				console.error('Failed to import project:', error);
+				alert(
+					`Failed to import project file. Please ensure it's a valid project file. Error: ${error instanceof Error ? error.message : 'Unknown'}`
+				);
+			} finally {
+				// Reset the input so the same file can be loaded again
+				target.value = '';
+			}
+		};
+		reader.readAsText(file);
+	}
 </script>
 
 <div class="page-content">
+	<section class="project-management card">
+		<h2 class="project-title">Project Management</h2>
+		<div class="project-buttons">
+			<button class="project-btn import" on:click={triggerProjectImport}>Import Project</button>
+			<button class="project-btn export" on:click={exportProject}>Export Project</button>
+			<input
+				type="file"
+				accept=".json, application/json"
+				bind:this={projectFileInputRef}
+				on:change={handleProjectFileSelect}
+				style="display: none;"
+			/>
+		</div>
+	</section>
+
 	<section class="config-section" aria-labelledby="section1-heading">
 		<h2 id="section1-heading">1. Configure Your Stock Board</h2>
 		<p>Define the dimensions and units for the board material.</p>
@@ -427,5 +525,51 @@
 
 	.viewer-container {
 		margin-top: 1rem;
+	}
+
+	.project-management {
+		/* Inherit card styles or define */
+		border: 1px solid #e0e0e0;
+		border-radius: 6px;
+		padding: 1.5rem 2rem;
+		background-color: #ffffff;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+		margin-bottom: 2.5rem;
+		text-align: center;
+	}
+	.project-management .project-title {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		font-size: 1.4rem;
+		color: #333;
+	}
+	.project-management .project-buttons {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	.project-management .project-btn {
+		padding: 0.7rem 1.5rem;
+		font-size: 0.95rem;
+		font-weight: 500;
+		border-radius: 4px;
+		border: none;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+	.project-btn.import {
+		background-color: #17a2b8; /* Teal */
+		color: white;
+	}
+	.project-btn.import:hover {
+		background-color: #138496;
+	}
+	.project-btn.export {
+		background-color: #28a745; /* Green */
+		color: white;
+	}
+	.project-btn.export:hover {
+		background-color: #218838;
 	}
 </style>
