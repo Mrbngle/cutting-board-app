@@ -1,0 +1,107 @@
+<script>
+	// We can add imports and logic for theme switching here later.
+	function handleToggleTheme() {
+		// Placeholder function - actual theme logic will come later
+		console.log('Toggle theme button clicked');
+		alert('Theme switching not implemented yet!');
+	}
+</script>
+
+<div class="app-layout">
+	<header class="app-header">
+		<div class="logo-title">
+			<h1>Plywood Optimizer</h1>
+		</div>
+		<nav class="app-nav">
+			<button on:click={handleToggleTheme}> Toggle Theme </button>
+		</nav>
+	</header>
+
+	<main class="app-main-content">
+		<slot />
+	</main>
+
+	<footer class="app-footer">
+		<p>&copy; {new Date().getFullYear()} Plywood Optimizer. All rights reserved.</p>
+	</footer>
+</div>
+
+<style>
+	/* Basic layout styling */
+	.app-layout {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh; /* Ensure layout takes full viewport height */
+		margin: 0;
+	}
+
+	.app-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.8rem 1.5rem;
+		background-color: #f8f9fa; /* Light background for header */
+		border-bottom: 1px solid #dee2e6; /* Subtle border */
+		color: #212529; /* Dark text */
+	}
+
+	.app-header h1 {
+		margin: 0;
+		font-size: 1.6rem;
+	}
+
+	.app-nav button {
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		cursor: pointer;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		transition: background-color 0.2s ease;
+	}
+
+	.app-nav button:hover {
+		background-color: #0056b3;
+	}
+
+	.app-main-content {
+		flex-grow: 1; /* Allows main content to fill available space */
+		padding: 1.5rem;
+	}
+
+	.app-footer {
+		padding: 1rem 1.5rem;
+		background-color: #f8f9fa; /* Match header background */
+		border-top: 1px solid #dee2e6; /* Match header border */
+		text-align: center;
+		font-size: 0.85rem;
+		color: #6c757d; /* Muted text color */
+		margin-top: auto; /* Push footer to the bottom */
+	}
+
+	/* Basic global style reset (often better in app.css) */
+	:global(body) {
+		margin: 0;
+		font-family:
+			system-ui,
+			-apple-system,
+			BlinkMacSystemFont,
+			'Segoe UI',
+			Roboto,
+			Oxygen,
+			Ubuntu,
+			Cantarell,
+			'Open Sans',
+			'Helvetica Neue',
+			sans-serif;
+		line-height: 1.6;
+		color: #333;
+	}
+
+	:global(h1),
+	:global(h2),
+	:global(h3) {
+		margin-top: 0;
+	}
+</style>
